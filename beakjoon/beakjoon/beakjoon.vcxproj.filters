@@ -24,5 +24,8 @@
     <ClCompile Include="1918_후위 표기식.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="2263_트리의순회.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

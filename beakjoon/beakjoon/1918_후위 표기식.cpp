@@ -23,7 +23,6 @@ int main() {
 void postfix() {
 	int l = s.length();
 	stack<char> st;
-	char c;
 
 	for (int i = 0; i < l; i++) {
 		if (s[i] >= 'A' && s[i] <= 'Z')
