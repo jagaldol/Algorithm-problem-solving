@@ -13,13 +13,10 @@ def sol():
 
     dist = [INF if i != 1 else 0 for i in range(N + 1)]
 
-    for i in range(N):
+    for i in range(N - 1):
         for A, B, C in buses:
             if dist[A] != INF and dist[B] > dist[A] + C:
                 dist[B] = dist[A] + C
-                if i == N - 1:
-                    print(-1)
-                    return
 
     for A, B, C in buses:
         if dist[A] != INF and dist[B] > dist[A] + C:
