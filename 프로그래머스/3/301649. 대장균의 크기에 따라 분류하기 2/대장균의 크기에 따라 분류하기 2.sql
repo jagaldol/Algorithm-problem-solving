@@ -1,0 +1,14 @@
+-- 코드를 작성해주세요
+WITH total_count AS (
+    SELECT COUNT(*) AS cnt FROM ECOLI_DATA
+)
+SELECT
+    ID,
+    CASE
+        WHEN COUNT(*) OVER(ORDER BY SIZE_OF_COLONY) <= (SELECT cnt / 4 FROM total_count) THEN 'LOW'
+        WHEN COUNT(*) OVER(ORDER BY SIZE_OF_COLONY) <= (SELECT cnt / 2 FROM total_count) THEN 'MEDIUM'
+        WHEN COUNT(*) OVER(ORDER BY SIZE_OF_COLONY) <= (SELECT cnt * 3 / 4 FROM total_count) THEN 'HIGH'
+        ELSE 'CRITICAL'
+    END 'COLONY_NAME'
+FROM ECOLI_DATA
+ORDER BY ID;
