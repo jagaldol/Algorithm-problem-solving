@@ -8,12 +8,11 @@ table = [list(map(int, input().split())) for _ in range(N)]
 
 def sol():
     dp = [0] * (N + 1)
-    for i in range(1, N + 1):
-        dp[i] = dp[i - 1]
-        for j in range(1, i + 1):
-            if table[i - j][0] <= j:
-                dp[i] = max(dp[i - j] + table[i - j][1], dp[i])
-
+        
+    for i, (t, p) in enumerate(table):
+        for j in range(i + t, N + 1):
+            dp[j] = max(dp[j], dp[i] + p)
+            
     print(dp[N])
 
 
