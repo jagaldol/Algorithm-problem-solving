@@ -1,0 +1,24 @@
+import sys
+input = sys.stdin.readline
+
+N = int(input())
+times = [list(map(int, input().split())) for _ in range(N)]
+
+
+def sol():
+	times.sort()
+	
+	answer = 0
+	endtime = 0
+	
+	for s, e in times:
+		if endtime < s:
+			answer += 1
+			endtime = e
+		else:
+			endtime = min(endtime, e)
+	
+	print(answer)
+
+
+sol()
