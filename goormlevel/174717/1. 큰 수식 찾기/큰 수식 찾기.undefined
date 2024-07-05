@@ -1,0 +1,14 @@
+import sys
+
+input = sys.stdin.readline
+
+A, B = input().strip().split()
+
+
+def sol():
+	a = eval(A)
+	b = eval(B)
+	
+	print(a if a > b else b)
+	
+sol()
