@@ -1,0 +1,12 @@
+import sys
+input = sys.stdin.readline
+
+N, K = input().strip().split()
+A = input().strip().split()
+
+
+def sol():
+	print(sum(1 for a in A if K not in a))
+
+
+sol()
