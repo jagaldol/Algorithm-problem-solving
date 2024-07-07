@@ -7,21 +7,13 @@ objects = [list(map(int, input().split())) for _ in range(N)]
 
 
 def sol():
-    dp = [[0] * (N) for _ in range(K + 1)]
-    for i in range(K + 1):
-        W, V = objects[0]
-        if i - W >= 0:
-            dp[i][0] = V
+    dp = [0] * (K + 1)
 
-    for i in range(K + 1):
-        for j in range(1, N):
-            W, V = objects[j]
-            if i - W >= 0:
-                dp[i][j] = max(dp[i - W][j - 1] + V, dp[i][j - 1])
-            else:
-                dp[i][j] = dp[i][j - 1]
+    for W, V in objects:
+        for i in range(K, W - 1, -1):
+            dp[i] = max(dp[i], dp[i - W] + V)
 
-    print(max(dp[-1]))
+    print(dp[-1])
 
 
 sol()
