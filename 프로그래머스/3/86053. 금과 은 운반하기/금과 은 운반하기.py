@@ -12,9 +12,9 @@ def solution(a, b, g, s, w, t):
             q = cost // time
             times = q // 2 + q % 2
 
-            max_gold += times * weight if times * weight < gold else gold
-            max_silver += times * weight if times * weight < silver else silver
-            total += times * weight if times * weight < gold + silver else gold + silver
+            max_gold += min(times * weight, gold)
+            max_silver += min(times * weight, silver)
+            total += min(times * weight, gold + silver)
 
         if max_gold >= a and max_silver >= b and total >= a + b:
             end = cost
