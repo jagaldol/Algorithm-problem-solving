@@ -9,8 +9,7 @@ def solution(a, b, g, s, w, t):
         max_gold, max_silver, total = 0, 0, 0
         for gold, silver, weight, time in zip(g, s, w, t):
             # 몇번 들고 올 수 있는지
-            q = cost // time
-            times = q // 2 + q % 2
+            times = (cost + time) // (2 * time)
 
             max_gold += min(times * weight, gold)
             max_silver += min(times * weight, silver)
