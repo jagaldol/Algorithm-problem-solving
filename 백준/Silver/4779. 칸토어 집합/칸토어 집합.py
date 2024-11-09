@@ -1,7 +1,5 @@
 import sys
 
-sys.setrecursionlimit(10**5)
-
 
 def cantor(n: int):
     if n == 0:
