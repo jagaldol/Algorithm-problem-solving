@@ -1,26 +1,19 @@
 import sys
 
-input = sys.stdin.readline
+sys.setrecursionlimit(10**5)
 
 
 def cantor(n: int):
     if n == 0:
-        print("-", end="")
-        return
+        return "-"
 
-    cantor(n - 1)
-    for _ in range(3 ** (n - 1)):
-        print(" ", end="")
-    cantor(n - 1)
+    child = cantor(n - 1)
+    return child + " " * (3 ** (n - 1)) + child
 
 
 def sol():
-    while True:
-        try:
-            cantor(int(input()))
-            print()
-        except Exception:
-            break
+    for line in sys.stdin:
+        print(cantor(int(line)))
 
 
 sol()
