@@ -4,7 +4,7 @@ import sys
 input = sys.stdin.readline
 N = int(input())
 
-shirts = map(int, input().split())
+shirts = list(map(int, input().split()))
 t, p = map(int, input().split())
 
 
