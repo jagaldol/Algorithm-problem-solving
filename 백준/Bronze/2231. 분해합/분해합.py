@@ -3,7 +3,7 @@ N = input()
 
 def sol():
     for i in range(1, int(N)):
-        target = i + sum(map(int, list(str(i))))
+        target = i + sum(map(int, str(i)))
         if target == int(N):
             print(i)
             return
