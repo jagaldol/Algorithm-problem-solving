@@ -5,13 +5,12 @@ input = sys.stdin.readline
 
 N, M = map(int, input().split())
 trees = list(map(int, input().split()))
-dp = [0 for _ in range(N)]
+dp = [0 for _ in range(N + 1)]
 
 
 def calculate(h):
-    # low_tree_index = bisect.bisect_left(trees, h)
-    # return dp[N - 1] - dp[low_tree_index - 1] - (N - low_tree_index) * h
-    return sum(max(tree - h, 0) for tree in trees)
+    low_tree_index = bisect.bisect_left(trees, h)
+    return dp[N] - dp[low_tree_index] - (N - low_tree_index) * h
 
 
 def parametric(s, e):
@@ -27,9 +26,9 @@ def parametric(s, e):
 
 def sol():
     trees.sort()
-    # dp[0] = trees[0]
-    # for i in range(1, N):
-    #     dp[i] = trees[i] + dp[i - 1]
+    for i in range(1, N + 1):
+        dp[i] = dp[i - 1] + trees[i - 1]
+    calculate(5)
 
     parametric(1, trees[N - 1])
 
