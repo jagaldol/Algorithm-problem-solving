@@ -17,30 +17,10 @@ def print_fizzbuzz(n):
 
 
 def sol():
-    temps = [0, 0, 0]
-    for i in range(3):
-        if fizzbuzzs[i] == "FizzBuzz":
-            # 15의 배수
-            temps[i] = 15
-        elif fizzbuzzs[i] == "Fizz":
-            # 3의 배수
-            temps[i] = 3
-        elif fizzbuzzs[i] == "Buzz":
-            # 5의 배수
-            temps[i] = 5
-        else:
-            print_fizzbuzz(int(fizzbuzzs[i]) + 3 - i)
+    for i, fizzbuzz in enumerate(fizzbuzzs):
+        if fizzbuzz not in ("FizzBuzz", "Fizz", "Buzz"):
+            print_fizzbuzz(int(fizzbuzz) + 3 - i)
             return
-
-    answer = 4
-    while not (
-        (answer - 3) % temps[0] == 0
-        and (answer - 2) % temps[1]
-        and (answer - 1) % temps[2] == 0
-    ):
-        answer += 1
-
-    print_fizzbuzz(answer)
 
 
 sol()
