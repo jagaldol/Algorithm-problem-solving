@@ -11,8 +11,9 @@ def sol():
     digit = 1
     while len(title_set) < N:
         for num in range(0, 10**digit):
-            for title in permutations(["666"] + list(str(num).zfill(digit))):
-                title_set.add(int("".join(title)))
+            num_str = list(str(num).zfill(digit))
+            for i in range(digit + 1):
+                title_set.add(int("".join(num_str[:i] + ["666"] + num_str[i:])))
 
         digit += 1
 
