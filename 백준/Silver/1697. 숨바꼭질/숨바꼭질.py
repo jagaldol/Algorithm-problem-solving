@@ -6,7 +6,7 @@ N, K = map(int, input().split())
 def sol():
     queue = deque([(N, 0)])
     visited = [False for _ in range(100_001)]
-    while queue:
+    while True:
         x, t = queue.popleft()
         if x == K:
             print(t)
