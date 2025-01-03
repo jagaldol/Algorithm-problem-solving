@@ -14,7 +14,7 @@ def sol():
         visited[x] = True
         nxs = [2 * x, x + 1, x - 1]
         for nx in nxs:
-            if nx in range(100_001) and not visited[nx]:
+            if 0 <= nx <= 100_000 and not visited[nx]:
                 queue.append((nx, t + 1))
 
 
