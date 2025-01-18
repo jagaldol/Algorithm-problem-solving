@@ -6,10 +6,6 @@ N = int(input())
 numbers = [int(input()) for _ in range(N)]
 
 
-def round(num):
-    return int(num + 0.5) if num > 0 else int(num - 0.5)
-
-
 def sol():
     numbers.sort()
     print(round(sum(numbers) / len(numbers)))
