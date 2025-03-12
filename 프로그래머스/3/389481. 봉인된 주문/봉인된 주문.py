@@ -12,6 +12,8 @@ def order2magic(n):
             mod -=1
         result.append(chr(mod + ord('a') - 1) if mod != 0 else 'z')
         n //= 26
+    if len(result) >= 2 and result[-2] == 'z' and result[-1] == 'z':
+        result = result[:-1]
     return "".join(reversed(result))
 
 def solution(n, bans):
