@@ -1,26 +1,20 @@
 import sys
-from collections import deque
 
 input = sys.stdin.readline
 
 board = [list(map(int, list(input().strip()))) for _ in range(9)]
 
 
-def valid_num(x, y):
-    num = set(range(1, 10))
+def get_invalid_numbers(x, y):
+    nums = set()
     rs = x // 3
     cs = y // 3
     for i in range(9):
-        if board[x][i] in num:
-            num.remove(board[x][i])
-        if board[i][y] in num:
-            num.remove(board[i][y])
-        ri = rs * 3 + i // 3
-        ci = cs * 3 + i % 3
-        if board[ri][ci] in num:
-            num.remove(board[ri][ci])
+        nums.add(board[x][i])
+        nums.add(board[i][y])
+        nums.add(board[rs * 3 + i // 3][cs * 3 + i % 3])
 
-    return list(num)
+    return list(nums)
 
 
 def backtrack(blanks, step):
@@ -28,8 +22,12 @@ def backtrack(blanks, step):
         return True
 
     x, y = blanks[step]
-    for n in valid_num(x, y):
-        board[x][y] = n
+    invalid_nums = get_invalid_numbers(x, y)
+
+    for i in range(1, 10):
+        if i in invalid_nums:
+            continue
+        board[x][y] = i
         if backtrack(blanks, step + 1):
             return True
         board[x][y] = 0
