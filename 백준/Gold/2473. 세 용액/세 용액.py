@@ -7,16 +7,14 @@ items.sort()
 
 
 def sol():
-    answer = [1_000_000_0000, 1_000_000_0000, 1_000_000_0000]
+    answer = (1_000_000_0000, 1_000_000_0000, 1_000_000_0000)
     for min_base in range(N - 2):
         left = min_base + 1
         right = N - 1
         while left < right:
             total = items[min_base] + items[left] + items[right]
             if abs(total) < abs(sum(answer)):
-                answer[0] = items[min_base]
-                answer[1] = items[left]
-                answer[2] = items[right]
+                answer = (items[min_base], items[left], items[right])
             if total < 0:
                 left += 1
             elif total > 0:
