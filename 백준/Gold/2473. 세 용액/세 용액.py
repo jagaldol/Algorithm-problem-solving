@@ -1,29 +1,26 @@
-import sys
+n = int(input())
+arr = list(map(int, input().split()))
+arr.sort()
 
-input = sys.stdin.readline
-N = int(input())
-items = list(map(int, input().split()))
-items.sort()
+minAbsTotal = int(3e9)
+res = None
 
+for i in range(1, n-1):
+    base = arr[i-1]
+    left = i
+    right = n-1
+    while left < right:
+        total = base + arr[left] + arr[right]
+        absTotal = abs(total)
+        if absTotal < minAbsTotal:
+            minAbsTotal = absTotal
+            res = (base, arr[left], arr[right])
 
-def sol():
-    answer = (1_000_000_0000, 1_000_000_0000, 1_000_000_0000)
-    for min_base in range(N - 2):
-        left = min_base + 1
-        right = N - 1
-        while left < right:
-            total = items[min_base] + items[left] + items[right]
-            if abs(total) < abs(sum(answer)):
-                answer = (items[min_base], items[left], items[right])
-            if total < 0:
-                left += 1
-            elif total > 0:
-                right -= 1
-            else:
-                print(*answer)
-                return
-
-    print(*answer)
-
-
-sol()
+        if total < 0:
+            left += 1
+        elif total > 0:
+            right -= 1
+        else: break
+    else: continue
+    break
+print(" ".join(map(str, res)))
