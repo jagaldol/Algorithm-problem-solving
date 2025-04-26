@@ -20,7 +20,8 @@ def sol():
             elif total > 0:
                 right -= 1
             else:
-                break
+                print(*answer)
+                return
 
     print(*answer)
 
