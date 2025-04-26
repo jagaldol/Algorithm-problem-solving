@@ -1,6 +1,4 @@
-import bisect
 import sys
-from itertools import combinations
 
 input = sys.stdin.readline
 N = int(input())
@@ -9,31 +7,24 @@ items.sort()
 
 
 def sol():
-    lowest = 5_000_000_0000
-    answer = [0, 0, 0]
-    for a, b in combinations(items, 2):
-        pair_sum = a + b
-        i = bisect.bisect(items, -pair_sum)
+    answer = [1_000_000_0000, 1_000_000_0000, 1_000_000_0000]
+    for min_base in range(N - 2):
+        left = min_base + 1
+        right = N - 1
+        while left < right:
+            total = items[min_base] + items[left] + items[right]
+            if abs(total) < abs(sum(answer)):
+                answer[0] = items[min_base]
+                answer[1] = items[left]
+                answer[2] = items[right]
+            if total < 0:
+                left += 1
+            elif total > 0:
+                right -= 1
+            else:
+                break
 
-        right = i
-        while right < N and items[right] in (a, b):
-            right += 1
-        if right < N and abs(items[right] + pair_sum) < lowest:
-            lowest = abs(items[right] + pair_sum)
-            answer[0] = items[right]
-            answer[1] = a
-            answer[2] = b
-
-        left = i - 1
-        while left >= 0 and items[left] in (a, b):
-            left -= 1
-        if left >= 0 and abs(items[left] + pair_sum) < lowest:
-            lowest = abs(items[left] + pair_sum)
-            answer[0] = items[left]
-            answer[1] = a
-            answer[2] = b
-
-    print(*sorted(answer))
+    print(*answer)
 
 
 sol()
