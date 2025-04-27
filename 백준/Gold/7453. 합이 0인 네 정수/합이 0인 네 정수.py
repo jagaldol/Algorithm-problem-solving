@@ -10,18 +10,17 @@ for i in range(n):
 def sol():
     AB = sorted(a + b for a in A for b in B)
     CD = sorted(c + d for c in C for d in D)
-    length = len(AB)
 
     answer = 0
 
     left = 0
-    right = length - 1
-    while left < length and right >= 0:
+    right = len(AB) - 1
+    while left < len(AB) and right >= 0:
         total_sum = AB[left] + CD[right]
         if total_sum == 0:
             ab_count = 1
             cd_count = 1
-            while left < length - 1 and AB[left] == AB[left + 1]:
+            while left < len(AB) - 1 and AB[left] == AB[left + 1]:
                 left += 1
                 ab_count += 1
             while right > 0 and CD[right] == CD[right - 1]:
