@@ -1,21 +1,20 @@
 N = int(input())
+
 MOD = 1_000_000_000
+types = [(1, 10), (1, 9), (2, 10), (2, 9)]
+dp = [
+    [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+    [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+    [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+    [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+]
 
-
-def step_dp(s, e):
-    s += 1
-    e += 1
-
-    dp = [[0 for _ in range(12)] for _ in range(N)]
-
-    for j in range(max(s, 2), e + 1):
-        dp[0][j] = 1
-
-    for i in range(1, N):
+for _ in range(N - 1):
+    for i, (s, e) in enumerate(types):
+        tmp_dp = dp[i][:]
         for j in range(s, e + 1):
-            dp[i][j] = (dp[i - 1][j - 1] + dp[i - 1][j + 1]) % MOD
+            tmp_dp[j] = (dp[i][j - 1] + dp[i][j + 1]) % MOD
+        dp[i] = tmp_dp
 
-    return sum(dp[N - 1]) % MOD
 
-
-print((step_dp(0, 9) - (step_dp(0, 8) + step_dp(1, 9) - step_dp(1, 8))) % MOD)
+print((sum(dp[0]) - sum(dp[1]) - sum(dp[2]) + sum(dp[3])) % MOD)
