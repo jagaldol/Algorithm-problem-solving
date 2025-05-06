@@ -1,36 +1,40 @@
 import sys
+from collections import deque
 
-sys.setrecursionlimit(10**6)
 input = sys.stdin.readline
+n = int(input())
+graph = [[] for _ in range(n + 1)]
+degree = [0] * (n + 1)
+visited = [False] * (n + 1)
 
-N = int(input())
-graph = [[] for _ in range(N + 1)]
-dp = [[0, 1] for _ in range(N + 1)]
-visited = [False] * (N + 1)
-parent = [0] * (N + 1)
-
-for _ in range(N - 1):
+for _ in range(n - 1):
     u, v = map(int, input().split())
     graph[u].append(v)
     graph[v].append(u)
+    degree[u] += 1
+    degree[v] += 1
 
-stack = [(1, False)]  # (현재 노드, 자식 처리가 끝났는지 여부)
 
-while stack:
-    node, processed = stack.pop()
-    if not processed:
+def sol():
+    q = deque([i for i in range(1, n + 1) if degree[i] == 1])
+
+    result = 0
+
+    while q:
+        node = q.popleft()
         visited[node] = True
-        stack.append((node, True))  # 나중에 다시 처리
-        for next_node in graph[node]:
-            if not visited[next_node]:
-                parent[next_node] = node
-                stack.append((next_node, False))
-    else:
-        # 자식 정보가 다 채워졌으니 dp 갱신
-        for child in graph[node]:
-            if child == parent[node]:
+        for parent in graph[node]:
+            if visited[parent]:
                 continue
-            dp[node][0] += dp[child][1]
-            dp[node][1] += min(dp[child][0], dp[child][1])
+            result += 1  # 부모를 얼리 어답터로 선택
+            visited[parent] = True
+            for grand in graph[parent]:
+                degree[grand] -= 1
+                if not visited[grand] and degree[grand] == 1:
+                    q.append(grand)
+            break  # 부모 한 명만 선택하면 충분함
 
-print(min(dp[1][0], dp[1][1]))
+    print(result)
+
+
+sol()
