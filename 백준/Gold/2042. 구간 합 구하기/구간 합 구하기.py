@@ -1,31 +1,49 @@
-import bisect
 import sys
 
 input = sys.stdin.readline
 N, M, K = map(int, input().split())
 A = [0] + [int(input()) for _ in range(N)]
-MIN_INFINITY = float("-inf")
 
-dp = [0] * (N + 1)
-for i in range(1, N + 1):
-    dp[i] = dp[i - 1] + A[i]
+tree = [0] * (4 * N)
 
-change_logs = []
 
-for i in range(M + K):
+def build(node, start, end):
+    if start == end:
+        tree[node] = A[start]
+    else:
+        mid = (start + end) // 2
+        build(node * 2, start, mid)
+        build(node * 2 + 1, mid + 1, end)
+        tree[node] = tree[node * 2] + tree[node * 2 + 1]
+
+
+def update(node, start, end, idx, value):
+    if start == end:
+        A[idx] = value
+        tree[node] = value
+    else:
+        mid = (start + end) // 2
+        if idx <= mid:
+            update(node * 2, start, mid, idx, value)
+        else:
+            update(node * 2 + 1, mid + 1, end, idx, value)
+        tree[node] = tree[node * 2] + tree[node * 2 + 1]
+
+
+def query(node, start, end, left, right):
+    if right < start or end < left:
+        return 0
+    if left <= start and end <= right:
+        return tree[node]
+    mid = (start + end) // 2
+    return query(node * 2, start, mid, left, right) + query(node * 2 + 1, mid + 1, end, left, right)
+
+
+build(1, 1, N)
+
+for _ in range(M + K):
     a, b, c = map(int, input().split())
     if a == 1:
-        idx = bisect.bisect(change_logs, (b, MIN_INFINITY))
-        if idx < len(change_logs) and change_logs[idx][0] == b:
-            change_logs[idx] = (b, c)
-        else:
-            change_logs.insert(idx, (b, c))
+        update(1, 1, N, b, c)
     else:
-        answer = dp[c] - dp[b - 1]
-        left = bisect.bisect(change_logs, (b, MIN_INFINITY))
-        right = bisect.bisect(change_logs, (c, float("inf")))
-
-        for i in range(left, right):
-            idx, value = change_logs[i]
-            answer = answer - A[idx] + value
-        print(answer)
+        print(query(1, 1, N, b, c))
