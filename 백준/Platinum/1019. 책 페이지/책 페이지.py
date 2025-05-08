@@ -16,17 +16,14 @@ def count_digits(n):
         while n > 0 and n % 10 != 9:
             add_one_page(n, point=point)
             n -= 1
-        
-        start = 1
-        while start <= n and start % 10 != 0:
-            add_one_page(start, point)
-            start += 1
-        if n == start:
+        if n == 0:
             break
-        cnt = n // 10
-        for i in range(10):
-            num[i] += cnt * point
+        for i in range(1, 10):
+            num[i] += point
+
         n //= 10
+        for i in range(10):
+            num[i] += n * point
         point *= 10
 
 
