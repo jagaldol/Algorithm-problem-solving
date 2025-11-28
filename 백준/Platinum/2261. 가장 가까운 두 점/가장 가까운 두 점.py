@@ -7,14 +7,24 @@ points = [tuple(map(int, input().split())) for _ in range(n)]
 
 points.sort()
 
+for i in range(1, n):
+    if points[i] == points[i - 1]:
+        print(0)
+        sys.exit(0)
+
+def dist2(a, b):
+    dx = a[0] - b[0]
+    dy = a[1] - b[1]
+    return dx * dx + dy * dy
 
 def find_min_dist(start, end):
     if end - start <= 2:
         min_dist = float("inf")
         for i in range(start, end + 1):
             for j in range(i + 1, end + 1):
-                dist = (points[i][0] - points[j][0]) ** 2 + (points[i][1] - points[j][1]) ** 2
-                min_dist = min(min_dist, dist)
+                d = dist2(points[i], points[j])
+                if d < min_dist:
+                    min_dist = d
         return min_dist
 
     mid = (start + end) // 2
@@ -25,9 +35,11 @@ def find_min_dist(start, end):
 
     mid_x = points[mid][0]
     strip = []
-    for point in points[start : end + 1]:
-        if (point[0] - mid_x) ** 2 < min_dist:
-            strip.append(point)
+    for i in range(start, end + 1):
+        px, py = points[i]
+        dx = px - mid_x
+        if dx * dx < min_dist:
+            strip.append(points[i])
     strip.sort(key=lambda p: p[1])
 
     for i in range(len(strip)):
@@ -35,8 +47,9 @@ def find_min_dist(start, end):
             dy = strip[j][1] - strip[i][1]
             if dy * dy >= min_dist:
                 break
-            dist = (strip[i][0] - strip[j][0]) ** 2 + (strip[i][1] - strip[j][1]) ** 2
-            min_dist = min(min_dist, dist)
+            d = dist2(strip[i], strip[j])
+            if d < min_dist:
+                min_dist = d
     return min_dist
 
 
