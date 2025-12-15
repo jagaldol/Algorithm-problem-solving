@@ -1,3 +1,5 @@
 def solution(n):
-    return sum(i for i in range(n + 1) if i % 2 == 0)
-    return answer
+    d = n % 2
+    if d:
+        n -= 1
+    return (n // 2 + 1) * n // 2
