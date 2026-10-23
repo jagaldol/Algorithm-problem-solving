@@ -1,10 +1,11 @@
 import heapq
 
 def solution(scoville, K):
+    scoville = scoville.copy()
     heapq.heapify(scoville)
     
     count = 0
-    while scoville[0] < K and len(scoville) > 1:
+    while len(scoville) > 1 and scoville[0] < K:
         count += 1
         a = heapq.heappop(scoville)
         b = heapq.heappop(scoville)
