@@ -1,5 +1,7 @@
+from math import ceil
+
 def solution(progresses, speeds):
-    remain = [(100 - progress + speed - 1) // speed for progress, speed in zip(progresses, speeds)]
+    remain = [ceil((100 - progress) / speed) for progress, speed in zip(progresses, speeds)]
     cnt = 1
     now = remain[0]
     answer = []
