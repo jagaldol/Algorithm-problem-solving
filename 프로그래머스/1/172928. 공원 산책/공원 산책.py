@@ -7,7 +7,7 @@ def solution(park, routes):
         "E": (0, 1),
     }
     
-    x, y = [(i, j) for i in range(n) for j in range(m) if park[i][j] == "S"][0]
+    x, y = next((i, j) for i in range(n) for j in range(m) if park[i][j] == "S")
     
     for route in routes:
         direction, distance = route.split()
@@ -22,9 +22,3 @@ def solution(park, routes):
         x, y = nx, ny
     
     return [x, y]
-
-
-# park = ["OOWS", "OOOO", "OOOO"]
-# # print(solution(park, ["N 1", "W 1"]))
-# for k in range(3, 0, -1):
-#     print(k, solution(park, [f"W {k}"]))
