@@ -12,6 +12,22 @@ def solution(maze):
     red_visited[rx][ry] = True
     blue_visited[bx][by] = True
     
+    def next_positions(x, y, goal, visited):
+        if maze[x][y] == goal:
+            return[(x, y)]
+        
+        result = []
+        for dx, dy in steps:
+            nx, ny = x + dx, y + dy
+            
+            if not (0 <= nx < n and 0 <= ny < m):
+                continue
+            if visited[nx][ny] or maze[nx][ny] == 5:
+                continue
+            
+            result.append((nx, ny))
+        return result        
+    
     
     best = float('inf')
     
@@ -30,48 +46,24 @@ def solution(maze):
             best = turns
             return
         
-        if maze[rx][ry] == 3:
-            nrx, nry = rx, ry
-            for dbx, dby in steps:
-                nbx, nby = bx + dbx, by + dby
-                if not (0 <= nbx < n and 0 <= nby < m) or blue_visited[nbx][nby] or maze[nbx][nby] == 5:
-                    continue
+        red_moves = next_positions(rx, ry, 3, red_visited)
+        blue_moves = next_positions(bx, by, 4, blue_visited)
+        
+        for nrx, nry in red_moves:
+            for nbx, nby in blue_moves:
                 if (nrx, nry) == (nbx, nby):
                     continue
+                if (nrx, nry) == (bx, by) and (nbx, nby) == (rx, ry):
+                    continue
+                
+                red_before = red_visited[nrx][nry]
+                blue_before = blue_visited[nbx][nby]
+                
+                red_visited[nrx][nry] = True
                 blue_visited[nbx][nby] = True
                 dfs(nrx, nry, nbx, nby, turns + 1)
-                blue_visited[nbx][nby] = False
-        elif maze[bx][by] == 4:
-            nbx, nby = bx, by
-            for drx, dry in steps:
-                nrx, nry = rx + drx, ry + dry
-                if not (0 <= nrx < n and 0 <= nry < m) or red_visited[nrx][nry] or maze[nrx][nry] == 5:
-                    continue
-                if (nrx, nry) == (nbx, nby):
-                    continue
-                red_visited[nrx][nry] = True
-                dfs(nrx, nry, nbx, nby, turns + 1)
-                red_visited[nrx][nry] = False
-            
-        else:
-            for drx, dry in steps:
-                nrx, nry = rx + drx, ry + dry
-                if not (0 <= nrx < n and 0 <= nry < m) or red_visited[nrx][nry] or maze[nrx][nry] == 5:
-                    continue
-
-                for dbx, dby in steps:
-                    nbx, nby = bx + dbx, by + dby
-                    if not (0 <= nbx < n and 0 <= nby < m) or blue_visited[nbx][nby] or maze[nbx][nby] == 5:
-                        continue
-                    if (nrx, nry) == (nbx, nby):
-                        continue
-                    if (nrx, nry) == (bx, by) and (nbx, nby) == (rx, ry):
-                        continue
-                    red_visited[nrx][nry] = True
-                    blue_visited[nbx][nby] = True
-                    dfs(nrx, nry, nbx, nby, turns + 1)
-                    red_visited[nrx][nry] = False
-                    blue_visited[nbx][nby] = False
+                red_visited[nrx][nry] = red_before
+                blue_visited[nbx][nby] = blue_before
     
     dfs(rx, ry, bx, by, 0)
     
