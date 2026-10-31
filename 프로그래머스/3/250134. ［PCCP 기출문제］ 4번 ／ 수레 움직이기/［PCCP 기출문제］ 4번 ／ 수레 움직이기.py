@@ -27,7 +27,8 @@ def solution(maze):
             return
         
         if maze[rx][ry] == 3 and maze[bx][by] == 4:
-            best = min(best, turns)
+            best = turns
+            return
         
         if maze[rx][ry] == 3:
             nrx, nry = rx, ry
