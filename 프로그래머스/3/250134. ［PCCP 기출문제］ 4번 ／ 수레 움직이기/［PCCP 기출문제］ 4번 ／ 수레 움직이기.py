@@ -2,15 +2,32 @@ def solution(maze):
     n, m = len(maze), len(maze[0])
     red_visited = [[False for _ in range(m)] for _ in range(n)]
     blue_visited = [[False for _ in range(m)] for _ in range(n)]
-    steps = [(-1, 0), (0 , -1), (1, 0), (0, 1), (0, 0)]
+    steps = [(-1, 0), (0 , -1), (1, 0), (0, 1)]
     
-    answer = 0
+    rx, ry = next((i, j) for i in range(n) for j in range(m) if maze[i][j] == 1)
+    bx, by = next((i, j) for i in range(n) for j in range(m) if maze[i][j] == 2)
+    rgx, rgy = next((i, j) for i in range(n) for j in range(m) if maze[i][j] == 3)
+    bgx, bgy = next((i, j) for i in range(n) for j in range(m) if maze[i][j] == 4)
     
-    def dfs(rx, ry, bx, by):
-        answer = float('inf')
+    red_visited[rx][ry] = True
+    blue_visited[bx][by] = True
+    
+    
+    best = float('inf')
+    
+    def dfs(rx, ry, bx, by, turns):
+        nonlocal best
+        
+        remaining = max(
+            abs(rx - rgx) + abs(ry - rgy),
+            abs(bx - bgx) + abs(by - bgy),
+        )
+        
+        if turns + remaining >= best:
+            return
         
         if maze[rx][ry] == 3 and maze[bx][by] == 4:
-            return 0
+            best = min(best, turns)
         
         if maze[rx][ry] == 3:
             nrx, nry = rx, ry
@@ -21,7 +38,7 @@ def solution(maze):
                 if (nrx, nry) == (nbx, nby):
                     continue
                 blue_visited[nbx][nby] = True
-                answer = min(answer, dfs(nrx, nry, nbx, nby) + 1)
+                dfs(nrx, nry, nbx, nby, turns + 1)
                 blue_visited[nbx][nby] = False
         elif maze[bx][by] == 4:
             nbx, nby = bx, by
@@ -32,7 +49,7 @@ def solution(maze):
                 if (nrx, nry) == (nbx, nby):
                     continue
                 red_visited[nrx][nry] = True
-                answer = min(answer, dfs(nrx, nry, nbx, nby) + 1)
+                dfs(nrx, nry, nbx, nby, turns + 1)
                 red_visited[nrx][nry] = False
             
         else:
@@ -51,16 +68,10 @@ def solution(maze):
                         continue
                     red_visited[nrx][nry] = True
                     blue_visited[nbx][nby] = True
-                    answer = min(answer, dfs(nrx, nry, nbx, nby) + 1)
+                    dfs(nrx, nry, nbx, nby, turns + 1)
                     red_visited[nrx][nry] = False
                     blue_visited[nbx][nby] = False
-        return answer
     
-    rx, ry = next((i, j) for i in range(n) for j in range(m) if maze[i][j] == 1)
-    bx, by = next((i, j) for i in range(n) for j in range(m) if maze[i][j] == 2)
+    dfs(rx, ry, bx, by, 0)
     
-    red_visited[rx][ry] = True
-    blue_visited[bx][by] = True
-    
-    answer = dfs(rx, ry, bx, by)
-    return 0 if answer == float('inf') else answer
+    return 0 if best == float('inf') else best
