@@ -1,6 +1,6 @@
 def solution(diffs, times, limit):
     start = 1
-    end = limit
+    end = max(diffs)
     
     def solve(level):
         time_prev = 0
