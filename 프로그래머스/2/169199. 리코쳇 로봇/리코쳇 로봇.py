@@ -13,6 +13,9 @@ def solution(board):
     while queue:
         x, y = queue.popleft()
         
+        if board[x][y] == 'G':
+            return costs[x][y]
+        
         for dx, dy in steps:
             distance = 1
             while True:
@@ -30,8 +33,4 @@ def solution(board):
                 queue.append((nx, ny))
                 costs[nx][ny] = costs[x][y] + 1
                 
-    gx, gy = next((i, j) for i in range(n) for j in range(m) if board[i][j] == 'G')
-
-    if costs[gx][gy] == float('inf'):
-        return -1
-    return costs[gx][gy]
+    return -1
