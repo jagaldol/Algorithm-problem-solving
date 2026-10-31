@@ -14,11 +14,13 @@ def solution(diffs, times, limit):
             time_prev = time_cur
         return True
     
-    while start < end:
+    answer = None
+    while start <= end:
         mid = (start + end) // 2
         if solve(mid):
-            end = mid
+            answer = mid
+            end = mid - 1
         else:
             start = mid + 1
     
-    return end
+    return answer
