@@ -14,7 +14,7 @@ def solution(maze):
     
     def next_positions(x, y, goal, visited):
         if maze[x][y] == goal:
-            return[(x, y)]
+            return [(x, y)]
         
         result = []
         for dx, dy in steps:
