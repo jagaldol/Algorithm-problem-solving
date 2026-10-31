@@ -17,18 +17,15 @@ def solution(board):
             return costs[x][y]
         
         for dx, dy in steps:
-            distance = 1
+            nx, ny = x, y
             while True:
-                nx = x + dx * distance
-                ny = y + dy * distance
-                if not (0 <= nx < n and 0 <= ny < m):
+                tx, ty = nx + dx, ny + dy
+                if not (0 <= tx < n and 0 <= ty < m):
                     break
-                if board[nx][ny] == 'D':
+                if board[tx][ty] == 'D':
                     break
-                distance += 1
-            distance -= 1
-            nx = x + dx * distance
-            ny = y + dy * distance
+                nx, ny = tx, ty
+    
             if costs[x][y] + 1 < costs[nx][ny]:
                 queue.append((nx, ny))
                 costs[nx][ny] = costs[x][y] + 1
