@@ -2,12 +2,12 @@ from collections import deque, Counter
 
 
 def solution(points, routes):
-    robots = [deque([tuple(points[point - 1]) for point in route]) for route in routes]
+    robots = [deque(tuple(points[i - 1]) for i in route) for route in routes]
     
     answer = 0
     while robots:
         counter = Counter(robot[0] for robot in robots)
-        answer += sum(value > 1 for key, value in counter.items())
+        answer += sum(value > 1 for value in counter.values())
         robots = [robot for robot in robots if len(robot) > 1]
         for robot in robots:
             nx, ny = robot[0]
